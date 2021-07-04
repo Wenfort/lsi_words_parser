@@ -8,13 +8,13 @@ class NewRequestHandler:
     def make_requests_list(request):
         return request.replace('\r', '').split('\n')
 
-    def check_user_limit(self, user_ip):
+    def check_user_limit(self, user_ip, requests_amount):
         request = db.query(IpHistory).where(IpHistory.ip == user_ip)
         row = db.execute(request).scalar()
         if row:
-            row.counter += 1
+            row.counter += requests_amount
         else:
-            row = IpHistory(ip=user_ip, counter=1)
+            row = IpHistory(ip=user_ip, counter=requests_amount)
             db.add(row)
         db.commit()
         return row.counter

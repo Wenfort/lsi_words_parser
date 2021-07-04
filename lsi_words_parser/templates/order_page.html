@@ -13,8 +13,9 @@
         <div class="col-md-2">
             <table>
                 <tr>
-                    <td>{{result.request_text}}</td>
+                    <td style="text-align: center"><b>{{result.request_text}}</b></td>
                 </tr>
+
                 {% if result.lsi_words %}
                     {% for text, percent in result.lsi_words.items() %}
                             <tr>

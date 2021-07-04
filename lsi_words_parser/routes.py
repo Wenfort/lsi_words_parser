@@ -5,28 +5,6 @@ from lsi_words_parser.logic.new_requests_handler import NewRequestHandler
 from lsi_words_parser.logic.order_view import ViewHandler
 from service.main import run
 
-
-@app.route('/')
-@app.route('/index')
-def index():
-    user = {'username': 'Эльдар Рязанов'}
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        },
-        {
-            'author': {'username': 'Ипполит'},
-            'body': 'Какая гадость эта ваша заливная рыба!!'
-        }
-    ]
-    return render_template('index.html', title='Home', user=user, posts=posts)
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -37,13 +15,14 @@ def login():
     return render_template('login.html', title='Sign In', form=form)
 
 
-@app.route('/new_request', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def new_request():
     form = NewRequestForm()
     if form.validate_on_submit():
         handler = NewRequestHandler()
-        if handler.check_user_limit(request.remote_addr) <= 1000:
-            requests = handler.make_requests_list(form.requests.data)
+        requests = handler.make_requests_list(form.requests.data)
+        if handler.check_user_limit(request.remote_addr, len(requests)) <= 10 and len(requests) <= 10:
             added_requests = handler.add_new_data_to_database(requests)
             run.delay(added_requests)
 

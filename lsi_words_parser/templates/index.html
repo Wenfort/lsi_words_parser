@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ user.username }}!</h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-    {% endfor %}
+aaa
+<div class="row">
+    <p>aaa</p>
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        <form action="" method="post"  novalidate>
+            {{ form.hidden_tag() }}
+        <p>{{ form.requests(rows='20',cols='50') }}</p>
+        <p style="width: 100%">{{ form.submit() }}</p>
+        </form>
+    </div>
+</div>
 {% endblock %}
