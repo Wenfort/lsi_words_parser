@@ -1,0 +1,1 @@
+from lsi_words_parser import app

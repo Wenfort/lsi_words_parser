@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+    {% set col_counter = namespace(value=0) %}
+    {% for result in results %}
+        {% if col_counter.value == 0 %}
+            <div class="row">
+            <div class="col-md-2"></div>
+        {% endif %}
+
+        <div class="col-md-2">
+            <table>
+                <tr>
+                    <td>{{result.request_text}}</td>
+                </tr>
+                {% if result.lsi_words %}
+                    {% for text, percent in result.lsi_words.items() %}
+                            <tr>
+                            <td>{{ text }}</td>
+                            <td>{{ percent }}%</td>
+                            </tr>
+                    {% endfor %}
+                {% else %}
+                    <td>Данные по запросу собираются. Пожалуйста, обновите эту страницу через несколько минут.</td>
+                {% endif %}
+            </table>
+        </div>
+    {% if col_counter.value == 3 %}
+        </div>
+        <br>
+        {% set col_counter.value = 0 %}
+    {% else %}
+        {% set col_counter.value = col_counter.value +1 %}
+    {% endif %}
+
+    {% endfor %}
+{% endblock %}
