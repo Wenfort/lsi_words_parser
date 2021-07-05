@@ -6,7 +6,7 @@ from lsi_words_parser.db import db
 from lsi_words_parser.models import LSI
 from lsi_words_parser import cel
 
-XML_KEY = '893df7feb2a0f02343085ea6bc9e5424056aa945'
+XML_KEY = ''
 
 
 class Parser:
@@ -86,11 +86,6 @@ class LsiStatistic:
 
         return word_percent
 
-    def show_all_words_with_percent_over_breakpoint(self, words, percent_breakpoint):
-        for word, percent in words.items():
-            if percent >= percent_breakpoint:
-                print(f'{word} - {percent}%')
-
 
 class LsiStatisticDB:
 
@@ -114,13 +109,15 @@ class Manager:
             lsi_statistic = self.get_lsi_statistic(sites_content)
             LsiStatisticDB.add_lsi_statistic_to_db(lsi_statistic, request['id'])
 
-    def get_sites_contents(self, request):
+    @staticmethod
+    def get_sites_contents(request):
         parser = Parser(request=request)
         sites_urls = parser.get_all_sites_urls()
         parsed_sites = [Parser(url=site_url) for site_url in sites_urls]
         return [Content(site.page_html) for site in parsed_sites]
 
-    def get_lsi_statistic(self, sites_content):
+    @staticmethod
+    def get_lsi_statistic(sites_content):
         lsi_statistic = LsiStatistic(sites_content)
         lsi_statistic = lsi_statistic.count_word_percent_in_site_content()
         return lsi_statistic

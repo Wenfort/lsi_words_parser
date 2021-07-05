@@ -1,6 +1,12 @@
-from sqlalchemy import create_engine, select
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine("postgresql://postgres:fn3kMls1@localhost:5432/postgres")
+PG_LOGIN = ''
+PG_PASSWORD = ''
+PG_PORT = ''
+PG_HOST = ''
+DB_NAME = ''
+
+engine = create_engine(f"postgresql://{PG_LOGIN}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{DB_NAME}")
 Session = sessionmaker(engine)
 db = Session()

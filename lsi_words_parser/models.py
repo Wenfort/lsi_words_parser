@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import declarative_base
 
-
 Base = declarative_base()
+
 
 class User(Base):
     __tablename__ = 'user'
@@ -13,7 +13,7 @@ class User(Base):
 
     __table_args__ = {'schema': 'lsi_words'}
 
-print('таблица 1')
+
 class Order(Base):
     __tablename__ = 'order'
 
@@ -53,9 +53,10 @@ class IpHistory(Base):
 
     __table_args__ = {'schema': 'lsi_words'}
 
-print('Таблица ласт')
+
 if __name__ == '__main__':
     from lsi_words_parser.db import engine
+
     User.__table__.create(engine)
     Order.__table__.create(engine)
     Request.__table__.create(engine)

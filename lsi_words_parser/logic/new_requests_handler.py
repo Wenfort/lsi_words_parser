@@ -1,6 +1,7 @@
-from lsi_words_parser.db import *
+from lsi_words_parser.db import db
 from lsi_words_parser.models import IpHistory, Request, Order
 import hashlib
+
 
 class NewRequestHandler:
 
@@ -8,7 +9,11 @@ class NewRequestHandler:
     def make_requests_list(request):
         return request.replace('\r', '').split('\n')
 
-    def check_user_limit(self, user_ip, requests_amount):
+    @staticmethod
+    def check_user_limit(user_ip, requests_amount):
+        """
+        Пользователю разрешается сделать 10 бесплатных запросов
+        """
         request = db.query(IpHistory).where(IpHistory.ip == user_ip)
         row = db.execute(request).scalar()
         if row:
@@ -25,10 +30,10 @@ class NewRequestHandler:
         return added_requests
 
     def make_short_link(self, requests):
-        secret_word = 'lsi_words_hash'
+        secret_word = 'hashword'
         requests = ''.join(requests)
 
-        short_link = hashlib.new('sha512_256')
+        short_link = hashlib.new('sha512')
         short_link.update(bytes(secret_word + requests, encoding='utf-8'))
         short_link = short_link.hexdigest()
         self.short_link = short_link
@@ -40,7 +45,8 @@ class NewRequestHandler:
         db.commit()
         return order.id
 
-    def add_new_requests_to_postgres(self, requests, order_id):
+    @staticmethod
+    def add_new_requests_to_postgres(requests, order_id):
         new_requests = [Request(text=request, order_id=order_id) for request in requests]
         db.bulk_save_objects(new_requests, return_defaults=True)
         db.commit()
