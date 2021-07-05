@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import declarative_base
 
+
 Base = declarative_base()
 
 class User(Base):
@@ -54,7 +55,7 @@ class IpHistory(Base):
 
 print('Таблица ласт')
 if __name__ == '__main__':
-    from db import engine
+    from lsi_words_parser.db import engine
     User.__table__.create(engine)
     Order.__table__.create(engine)
     Request.__table__.create(engine)

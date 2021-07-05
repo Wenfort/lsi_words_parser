@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import collections
 from stemmer import *
-from db import db
+from lsi_words_parser.db import db
 from lsi_words_parser.models import LSI
 from lsi_words_parser import cel
 

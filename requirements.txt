@@ -20,7 +20,6 @@ Jinja2==3.0.1
 kombu==5.1.0
 MarkupSafe==2.0.1
 MyApplication==0.1.0
-numpy==1.21.0
 prompt-toolkit==3.0.19
 psycopg2-binary==2.9.1
 pymorphy2==0.9.1

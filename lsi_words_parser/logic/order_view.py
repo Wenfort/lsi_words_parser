@@ -1,4 +1,4 @@
-from db import *
+from lsi_words_parser.db import *
 from lsi_words_parser.models import Order, Request, LSI
 
 
